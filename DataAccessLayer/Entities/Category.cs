@@ -8,7 +8,7 @@ namespace DataAccessLayer.Entities
 {
     public class Category
     {
-        public int category_id { get; set; }
+        public int CategoryId { get; set; }
         public string category_name { get; set; }
         public string category_type { get; set; }
     }

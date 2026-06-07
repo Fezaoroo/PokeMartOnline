@@ -1,0 +1,26 @@
+﻿@model List<DataAccessLayer.Entities.Product>
+
+<div style="display:flex; justify-content:space-between; align-items:center;">
+<h2>Products</h2>
+<a asp-controller="Account" asp-action="Logout" class="btn btn-danger">
+    Logout
+</a>
+</div>
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Quantity</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.ProductName</td>
+            <td>@item.description</td>
+            <td>@item.price</td>
+            <td>@item.QuantityAvailable</td>
+        </tr>
+    }
+</table>
