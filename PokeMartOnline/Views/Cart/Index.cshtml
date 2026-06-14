@@ -1,0 +1,60 @@
+﻿@model List<PokeMartOnline.Models.CartItem>
+
+<div class="container mt-4">
+
+    <h2>Your Cart</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            Your cart is empty.
+        </div>
+    }
+    else
+    {
+        @foreach (var item in Model)
+        {
+            <div class="card mb-3 p-3">
+                <div class="row align-items-center">
+
+                    
+                    <div class="col-md-2">
+                        <img src="@item.ImageUrl"
+                             class="img-fluid"
+                             style="max-height:100px; object-fit:contain;" />
+                    </div>
+
+                  
+                    <div class="col-md-6">
+                        <h5>@item.Name</h5>
+                        <p>$@item.Price</p>
+                        <p>Quantity: @item.Quantity</p>
+                    </div>
+
+                   
+                    <div class="col-md-4 text-end">
+                        <p>
+                            Subtotal: $
+                            @(item.Price * item.Quantity)
+                        </p>
+
+                        <a asp-action="Remove"
+                           asp-route-productId="@item.ProductId"
+                           class="btn btn-danger">
+                            Remove
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        }
+
+        <hr />
+
+        <h4 class="text-end">
+            Total: $
+            @Model.Sum(i => i.Price * i.Quantity)
+        </h4>
+    }
+
+</div>

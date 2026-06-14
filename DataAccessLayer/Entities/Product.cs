@@ -25,6 +25,10 @@ namespace DataAccessLayer.Entities
 
         [Column("price")]
         public decimal price { get; set; }
+        [Column("condition")]
+        public string condition { get; set; }
+        [Column("grade")]
+        public string grade { get; set; }
 
         [Column("QuantityAvailable")]
         public int QuantityAvailable { get; set; }

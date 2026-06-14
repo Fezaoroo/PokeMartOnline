@@ -1,0 +1,32 @@
+﻿@model DataAccessLayer.Entities.Product
+
+<h2>Create Product</h2>
+
+<form asp-action="Create" method="post">
+
+    <input asp-for="ProductName" placeholder="Product Name" class="form-control" />
+    <br />
+
+    <textarea asp-for="description" placeholder="Description" class="form-control"></textarea>
+    <br />
+
+    <input asp-for="price" placeholder="Price" class="form-control" />
+    <br />
+
+    <input asp-for="QuantityAvailable" placeholder="Stock Quantity" class="form-control" />
+    <br />
+
+    <input asp-for="ImageUrl" placeholder="Image URL" class="form-control" />
+    <br />
+
+    <input asp-for="condition" placeholder="Condition (New/Used)" class="form-control" />
+    <br />
+
+    <input asp-for="grade" placeholder="Grade" class="form-control" />
+    <br />
+
+    <button type="submit" class="btn btn-success">
+        Create Product
+    </button>
+
+</form>

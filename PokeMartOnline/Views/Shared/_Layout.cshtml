@@ -17,23 +17,45 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                @if (Context.Session.GetString("User") != null)
+                {
+                    <span class="navbar-text">
+                        Welcome, @Context.Session.GetString("User")
+                    </span>
+                }
+                @using Microsoft.AspNetCore.Http
+
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">Register</a>
-                        </li>
+                            @if (Context.Session.GetString("User") != null)
+                            {
+                                
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Login</a>
-                        </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Products" asp-action="Index">Products</a>
+                                </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Products" asp-action="Index">Products</a>
-                        </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Cart" asp-action="Index">Cart</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link text-danger" asp-controller="Account" asp-action="Logout">Logout</a>
+                                </li>
+                            }
+                            else
+                            {
+                         
+
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">Register</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Login</a>
+                                </li>
+                            }
                     </ul>
                 </div>
             </div>
