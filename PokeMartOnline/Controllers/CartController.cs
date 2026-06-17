@@ -119,7 +119,34 @@ namespace PokeMartOnline.Controllers
 
             return RedirectToAction("Index");
         }
+        public IActionResult OrderHistory()
+        {
+            int userId = int.Parse(HttpContext.Session.GetString("UserId"));
 
+            var orders = _context.Orders
+                .Where(o => o.user_id == userId)
+                .ToList();
+
+            var result = orders.Select(o => new OrderHistoryModel
+            {
+                OrderId = o.order_id,
+                OrderDate = o.order_date,
+                TotalAmount = o.total_amount,
+
+                Items = (from oi in _context.OrderItems
+                         join p in _context.Products
+                            on oi.product_id equals p.product_id
+                         where oi.order_id == o.order_id
+                         select new OrderItemModel
+                         {
+                             ProductName = p.ProductName,
+                             Quantity = oi.quantity,
+                             PriceEach = oi.price_each
+                         }).ToList()
+            }).ToList();
+
+            return View(result);
+        }
 
         //Removing from cart
         public IActionResult Remove(int productId)
@@ -147,6 +174,80 @@ namespace PokeMartOnline.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult Checkout()
+        {
+            if (HttpContext.Session.GetString("UserId") == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            int userId = int.Parse(HttpContext.Session.GetString("UserId"));
+
+            var cart = _context.Cart.FirstOrDefault(c => c.user_id == userId);
+
+            if (cart == null)
+                return RedirectToAction("Index");
+
+            var cartItems = _context.CartItems
+                .Where(ci => ci.cart_id == cart.CartId)
+                .ToList();
+
+            if (!cartItems.Any())
+                return RedirectToAction("Index");
+
+            decimal total = 0;
+
+            //Create the order first before anything else
+            var order = new DataAccessLayer.Entities.Order
+            {
+                user_id = userId,
+                order_date = DateTime.Now,
+                created_at = DateTime.Now,
+                status = "Completed", // or "Pending"
+                shipping_address = "N/A", // this can be done later
+                total_amount = 0 // temporary
+            };
+
+            _context.Orders.Add(order);
+            _context.SaveChanges();
+
+            //Order Items
+            foreach (var item in cartItems)
+            {
+                var product = _context.Products
+                    .FirstOrDefault(p => p.product_id == item.product_id);
+
+                if (product == null) continue;
+
+                decimal subtotal = product.price * item.quantity;
+
+                total += subtotal;
+
+                _context.OrderItems.Add(new DataAccessLayer.Entities.OrderItem
+                {
+                    order_id = order.order_id,
+                    product_id = item.product_id,
+                    quantity = item.quantity,
+                    price_each = product.price,
+                    subtotal = subtotal
+                });
+
+                //Updates the inventory
+                product.QuantityAvailable -= item.quantity;
+            }
+
+            //Updates the total
+            order.total_amount = total;
+
+            //Clears the cart
+            _context.CartItems.RemoveRange(cartItems);
+
+            _context.SaveChanges();
+
+            return RedirectToAction("OrderHistory");
         }
     }
 }

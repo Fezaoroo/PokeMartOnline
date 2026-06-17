@@ -29,7 +29,6 @@ namespace PokeMartOnline.Controllers
         }
 
         public IActionResult Login() => View();
-
         [HttpPost]
         [HttpPost]
         public IActionResult Login(string email, string password)

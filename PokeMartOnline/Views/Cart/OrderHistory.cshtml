@@ -1,0 +1,25 @@
+﻿@model List<PokeMartOnline.Models.OrderHistoryModel>
+
+<h2>Your Orders</h2>
+
+@foreach (var order in Model)
+{
+    <div class="card mb-4 p-3">
+
+        <h5>Order #@order.OrderId</h5>
+        <p>Date: @order.OrderDate</p>
+        <p>Total: $@order.TotalAmount</p>
+
+        <hr />
+
+        @foreach (var item in order.Items)
+        {
+            <div class="mb-2">
+                <strong>@item.ProductName</strong><br />
+                Quantity: @item.Quantity <br />
+                Price Each: $@item.PriceEach
+            </div>
+        }
+
+    </div>
+}
