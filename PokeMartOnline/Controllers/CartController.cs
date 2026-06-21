@@ -176,13 +176,23 @@ namespace PokeMartOnline.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpPost]
+        [HttpGet]
         public IActionResult Checkout()
         {
             if (HttpContext.Session.GetString("UserId") == null)
-            {
                 return RedirectToAction("Login", "Account");
-            }
+
+            return View(new PokeMartOnline.Models.CheckoutModel());
+        }
+
+        [HttpPost]
+        public IActionResult Checkout(PokeMartOnline.Models.CheckoutModel model)
+        {
+            if (HttpContext.Session.GetString("UserId") == null)
+                return RedirectToAction("Login", "Account");
+
+            if (!ModelState.IsValid)
+                return View(model);
 
             int userId = int.Parse(HttpContext.Session.GetString("UserId"));
 
@@ -200,30 +210,26 @@ namespace PokeMartOnline.Controllers
 
             decimal total = 0;
 
-            //Create the order first before anything else
             var order = new DataAccessLayer.Entities.Order
             {
                 user_id = userId,
                 order_date = DateTime.Now,
                 created_at = DateTime.Now,
-                status = "Completed", // or "Pending"
-                shipping_address = "N/A", // this can be done later
-                total_amount = 0 // temporary
+                status = "Completed",
+                shipping_address = $"{model.FullName}, {model.Address}, {model.City}, {model.State}, {model.ZipCode}",
+                total_amount = 0
             };
 
             _context.Orders.Add(order);
             _context.SaveChanges();
 
-            //Order Items
             foreach (var item in cartItems)
             {
-                var product = _context.Products
-                    .FirstOrDefault(p => p.product_id == item.product_id);
+                var product = _context.Products.FirstOrDefault(p => p.product_id == item.product_id);
 
                 if (product == null) continue;
 
                 decimal subtotal = product.price * item.quantity;
-
                 total += subtotal;
 
                 _context.OrderItems.Add(new DataAccessLayer.Entities.OrderItem
@@ -235,16 +241,12 @@ namespace PokeMartOnline.Controllers
                     subtotal = subtotal
                 });
 
-                //Updates the inventory
                 product.QuantityAvailable -= item.quantity;
             }
 
-            //Updates the total
             order.total_amount = total;
 
-            //Clears the cart
             _context.CartItems.RemoveRange(cartItems);
-
             _context.SaveChanges();
 
             return RedirectToAction("OrderHistory");

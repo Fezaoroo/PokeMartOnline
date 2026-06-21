@@ -1,0 +1,43 @@
+﻿@model PokeMartOnline.Models.CheckoutModel
+
+<h2>Checkout</h2>
+
+<form asp-action="Checkout" method="post">
+
+    <div>
+        <label>Full Name</label>
+        <input asp-for="FullName" class="form-control" />
+    </div>
+
+    <div>
+        <label>Address</label>
+        <input asp-for="Address" class="form-control" />
+    </div>
+
+    <div>
+        <label>City</label>
+        <input asp-for="City" class="form-control" />
+    </div>
+
+    <div>
+        <label>State</label>
+        <input asp-for="State" class="form-control" />
+    </div>
+
+    <div>
+        <label>ZIP Code</label>
+        <input asp-for="ZipCode" class="form-control" />
+    </div>
+
+    <div>
+        <label>Phone Number</label>
+        <input asp-for="PhoneNumber" class="form-control" />
+    </div>
+
+    <hr />
+
+    <button type="submit" class="btn btn-danger w-100">
+        Place Order
+    </button>
+
+</form>
