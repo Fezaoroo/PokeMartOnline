@@ -38,7 +38,7 @@ namespace PokeMartOnline.Controllers
 
             if (user != null)
             {
-                HttpContext.Session.SetString("User", user.email);
+                HttpContext.Session.SetString("User", user.username);
                 HttpContext.Session.SetString("UserId", user.user_id.ToString());
                 HttpContext.Session.SetString("Role", user.role);
 

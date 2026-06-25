@@ -1,20 +1,60 @@
-﻿<h2>Login</h2>
-
-<form asp-action="Login" method="post">
-    <div>
-        <label>Email</label>
-        <input type="text" name="email" />
-    </div>
-
-    <div>
-        <label>Password</label>
-        <input type="password" name="password" />
-    </div>
-
-    <button type="submit">Login</button>
-</form>
-
-@if (ViewBag.Error != null)
-{
-    <p style="color:red">@ViewBag.Error</p>
+﻿@{
+    ViewData["Title"] = "Login";
 }
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+
+        <div class="card shadow-lg border-0">
+
+            <div class="card-body p-5">
+
+                <h1 class="text-center mb-5">
+                    Login to PokeMart
+                </h1>
+
+                <form asp-action="Login" method="post">
+
+                    <div class="mb-3">
+                        <input type="email"
+                               name="email"
+                               class="form-control form-control-lg"
+                               placeholder="Email *" />
+                    </div>
+
+                    <div class="mb-4">
+                        <input type="password"
+                               name="password"
+                               class="form-control form-control-lg"
+                               placeholder="Password *" />
+                    </div>
+
+                    <button type="submit"
+                            class="btn btn-danger btn-lg w-100">
+                        LOGIN
+                    </button>
+
+                </form>
+
+                @if (ViewBag.Error != null)
+                {
+                    <div class="text-danger text-center mt-3">
+                        @ViewBag.Error
+                    </div>
+                }
+
+                <div class="text-center mt-4">
+                    Don't have an account?
+                    <a asp-controller="Account"
+                       asp-action="Register"
+                       class="text-danger text-decoration-none">
+                        Register here
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
