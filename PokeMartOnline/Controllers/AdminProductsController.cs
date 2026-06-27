@@ -25,12 +25,14 @@ namespace PokeMartOnline.Controllers
             if (!IsAdmin())
                 return RedirectToAction("Index", "Products");
 
+            ViewBag.Categories = _context.Categories.ToList();
+
             return View();
         }
 
         //Create product
         [HttpPost]
-        public IActionResult Create(Product product)
+        public IActionResult Create(DataAccessLayer.Entities.Product product)
         {
             if (!IsAdmin())
                 return RedirectToAction("Index", "Products"); 
@@ -81,6 +83,7 @@ namespace PokeMartOnline.Controllers
             product.QuantityAvailable = updatedProduct.QuantityAvailable;
             product.condition = updatedProduct.condition;
             product.grade = updatedProduct.grade;
+            product.category_id = updatedProduct.category_id;
 
             _context.SaveChanges();
 

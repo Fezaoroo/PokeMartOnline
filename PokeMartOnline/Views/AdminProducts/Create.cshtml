@@ -23,7 +23,26 @@
     <br />
 
     <input asp-for="grade" placeholder="Grade" class="form-control" />
+
     <br />
+
+    <div class="form-group">
+        <label>Category</label>
+
+        <select asp-for="category_id" class="form-control">
+            <option value="">-- Select Category --</option>
+
+            @foreach (var c in ViewBag.Categories)
+            {
+                <option value="@c.category_id">
+                    @c.category_name
+                </option>
+            }
+        </select>
+    </div>
+
+    <br />
+
 
     <button type="submit" class="btn btn-success">
         Create Product

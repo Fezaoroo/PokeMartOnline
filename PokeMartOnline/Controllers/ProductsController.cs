@@ -70,5 +70,68 @@ namespace PokeMartOnline.Controllers
 
             return View(uiProduct);
         }
+
+        public IActionResult Cards()
+        {
+            var products = _context.Products
+                .Where(p => p.category_id == 1)
+                .ToList();
+
+            var uiProducts = products.Select(p => new PokeMartOnline.Models.Product
+            {
+                Id = p.product_id,
+                Name = p.ProductName,
+                Description = p.description,
+                Price = p.price,
+                ImageUrl = p.ImageUrl,
+                StockQuantity = p.QuantityAvailable,
+                Condition = p.condition,
+                Grade = p.grade
+            }).ToList();
+
+            return View(uiProducts);
+        }
+
+        public IActionResult ETBs()
+        {
+            var products = _context.Products
+                .Where(p => p.category_id == 2)
+                .ToList();
+
+            var uiProducts = products.Select(p => new PokeMartOnline.Models.Product
+            {
+                Id = p.product_id,
+                Name = p.ProductName,
+                Description = p.description,
+                Price = p.price,
+                ImageUrl = p.ImageUrl,
+                StockQuantity = p.QuantityAvailable,
+                Condition = p.condition,
+                Grade = p.grade
+            }).ToList();
+
+            return View(uiProducts);
+        }
+
+        public IActionResult Playmats()
+        {
+            var products = _context.Products
+                .Where(p => p.category_id == 3)
+                .ToList();
+
+            var uiProducts = products.Select(p => new PokeMartOnline.Models.Product
+            {
+                Id = p.product_id,
+                Name = p.ProductName,
+                Description = p.description,
+                Price = p.price,
+                ImageUrl = p.ImageUrl,
+                StockQuantity = p.QuantityAvailable,
+                Condition = p.condition,
+                Grade = p.grade
+            }).ToList();
+
+            return View(uiProducts);
+        }
     }
 }

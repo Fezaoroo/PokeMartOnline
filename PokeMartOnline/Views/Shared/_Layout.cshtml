@@ -30,10 +30,48 @@
 
                             @if (Context.Session.GetString("User") != null)
                             {
-                                
 
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="Products" asp-action="Index">Products</a>
+
+                                <li class="nav-item dropdown">
+
+                                <a class="nav-link dropdown-toggle"
+                                   href="#"
+                                   id="productsDropdown"
+                                   role="button"
+                                   data-bs-toggle="dropdown">
+
+                                    Products
+
+                                </a>
+
+                                <ul class="dropdown-menu">
+
+                                    <li>
+                                        <a class="dropdown-item"
+                                           asp-controller="Products"
+                                           asp-action="Cards">
+                                            Pokemon Cards
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a class="dropdown-item"
+                                           asp-controller="Products"
+                                           asp-action="ETBs">
+                                            Elite Trainer Boxes
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a class="dropdown-item"
+                                           asp-controller="Products"
+                                           asp-action="Playmats">
+                                            Playing Mats
+                                        </a>
+                                    </li>
+
+                                </ul>
+
                                 </li>
 
                                 <li class="nav-item">

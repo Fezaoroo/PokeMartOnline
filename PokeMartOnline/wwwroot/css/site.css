@@ -18,7 +18,8 @@ html {
 }
 
 body {
-    background-color: #f2f2f2;
+    background: #f4f4f4;
+    padding-bottom: 100px;
 }
 
 .login-card {
@@ -44,4 +45,9 @@ body {
 .btn-danger:hover {
     background-color: #e00000;
     border-color: #e00000;
+}
+
+.footer {
+    position: relative;
+    margin-top: 50px;
 }
