@@ -4,6 +4,7 @@ namespace PokeMartOnline.Models
 {
     public class OrderHistoryModel
     {
+        public int DisplayOrderNumber { get; set; }
         public int OrderId { get; set; }
         public DateTime OrderDate { get; set; }
         public decimal TotalAmount { get; set; }

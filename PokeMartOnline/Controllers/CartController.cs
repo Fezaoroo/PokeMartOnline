@@ -125,17 +125,19 @@ namespace PokeMartOnline.Controllers
 
             var orders = _context.Orders
                 .Where(o => o.user_id == userId)
+                .OrderBy(o => o.order_date)
                 .ToList();
 
-            var result = orders.Select(o => new OrderHistoryModel
+            var result = orders.Select((o, index) => new OrderHistoryModel
             {
+                DisplayOrderNumber = index + 1,   
                 OrderId = o.order_id,
                 OrderDate = o.order_date,
                 TotalAmount = o.total_amount,
 
                 Items = (from oi in _context.OrderItems
                          join p in _context.Products
-                            on oi.product_id equals p.product_id
+                         on oi.product_id equals p.product_id
                          where oi.order_id == o.order_id
                          select new OrderItemModel
                          {
